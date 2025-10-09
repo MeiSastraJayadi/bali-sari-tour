@@ -171,7 +171,7 @@ class ClientController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->back(); 
+            return redirect()->route('home'); 
         }
 
         return back()->withErrors([
@@ -195,8 +195,8 @@ class ClientController extends Controller
 
 
         Pelanggan::create([
-            "nama_lengkap" => $request->name(), 
-            "email" => $request -> email(), 
+            "nama_lengkap" => $validated['name'], 
+            "email" => $validated['email'], 
             "user_id" => $user -> id, 
             "alamat" => "", 
             "telepon" => "",
@@ -207,7 +207,7 @@ class ClientController extends Controller
 
         Auth::login($user); 
 
-        return redirect()->back();
+        return redirect()->route('home');
     }
 
     public function booking() {
