@@ -7,7 +7,7 @@
 @section('content')
 <div class="md:container mt-5 min-h-screen flex max-sm:flex-col max-sm:px-3
     items-center justify-center">
-    <img src="{{ $image }}" 
+    <img src="{{ request()->getSchemeAndHttpHost() }}/{{ $image }}" 
         class="border border-[#DDD] max-sm:w-full w-[35%] h-[450px] object-center object-cover rounded rounded-xl shadow-xl" 
         alt="{{ 'Image -'.$name }}">
     <div class="flex flex-col ml-12 max-sm:ml-0 max-sm:w-full max-sm:mt-4">
