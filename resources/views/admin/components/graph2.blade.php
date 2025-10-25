@@ -1,20 +1,22 @@
 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-    {{-- {{ json_encode($data['data']) }} --}}
     <div class="d-flex justify-content-center align-items-center" style="height: 400px;">
-        <canvas class="bg-gradient-info" id="{{ $id }}" width="400" height="200"></canvas>
+        <canvas class="bg-gradient-info" data-value="{{ $data['data'] }}" id="{{ $id }}" width="400" height="200"></canvas>
     </div>    
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('{{ $id }}').getContext('2d');
+        const data = document.getElementById('{{ $id }}')
+        const value = JSON.parse(data.dataset.value)
+
         new Chart(ctx, {
             type: 'line', 
             data: {
                 labels: ['January', 'Februari', 'Maret', 'April', "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
                 datasets: [{
-                    label: "Jumlah Registrasi Pelanggan",
-                    data: {{ json_encode($data['data']) }},
+                    label: "Jumlah Revenue",
+                    data: value,
                     backgroundColor: ['#0d6efd']
                 }]
             },
@@ -48,7 +50,7 @@
                         },
                         title: {
                             display: true,
-                            text: "Pelanggan",
+                            text: "Pemasukan (Rp)",
                             color: 'white' 
                         },
                         grid: {

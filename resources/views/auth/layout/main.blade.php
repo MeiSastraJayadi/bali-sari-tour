@@ -40,7 +40,8 @@
                         </div>
                     </div>
                     <div class="flex flex-col items-center justify-center py-6 px-8">
-                        <h1 class="text-white text-xl font-bold ">{{ $formTitle }}</h1>
+                        <h1 class="text-white text-xl font-bold ">B-SMART</h1>
+                        <p class="text-white text-md">Bali Sari Management and Reservation Transport</p>
                         @yield('form')
                     </div>
                 </div>

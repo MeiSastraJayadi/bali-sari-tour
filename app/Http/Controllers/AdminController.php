@@ -16,13 +16,101 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
     public function dashboard() {
-        return view('admin.dashboard');
+        $now = Carbon::now();
+        $pelanggan = Pelanggan::whereMonth('created_at', $now->month)->get();
+        $totalPelanggan = count(Pelanggan::all());
+        $totalSopir = count(Sopir::all());
+        $lastMonth = Carbon::now()->subMonth();
+        
+        $invoiceLastMonth = Invoice::whereMonth('created_at', $lastMonth)
+            ->where('lunas', 1)
+            ->get(); 
+
+        $invoiceCurrentMonth = Invoice::whereMonth('created_at', $now->month)
+            ->where('lunas', 1)
+            ->get();
+
+        $totalInvoiceLastMonth = 0;
+        $totalInvoiceCurrentMonth = 0;  
+        
+        foreach($invoiceLastMonth as $inv) {
+            $totalInvoiceLastMonth += $inv -> biaya; 
+        }
+
+        foreach($invoiceCurrentMonth as $inv) {
+            $totalInvoiceCurrentMonth += $inv -> biaya; 
+        }
+
+        $diff = $totalInvoiceCurrentMonth - $totalInvoiceLastMonth; 
+        
+        if ($diff == 0) {
+            $revenue = "0%"; 
+        } else {
+
+            if ($totalInvoiceLastMonth == 0) {
+                $totalInvoiceLastMonth = 1;
+            }
+
+            $revenue = ($diff/$totalInvoiceLastMonth) * 100; 
+        }
+
+        $year = Carbon::now()->year;
+
+        $monthlyCounts = Pelanggan::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->whereYear('created_at', $year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month');
+        
+        $totalRegisters = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $totalRegisters[] = $monthlyCounts[$i] ?? 0;
+        }
+
+        $dataRegistrasi = [
+            "title" => "Jumlah Registrasi Pelanggan", 
+            "x_value" => "Bulan", 
+            "y_value" => "Pelanggan", 
+            "data" => $totalRegisters
+        ]; 
+
+
+        $monthlyTotalsRevenue = Invoice::selectRaw('MONTH(created_at) as month, SUM(biaya) as total')
+            ->whereYear('created_at', $year)
+            ->where('lunas', true)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month'); 
+
+        $totalRevenue = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $totalRevenue[] = $monthlyTotalsRevenue[$i] ?? 0;
+        }
+
+        $dataRevenue = [
+            "title" => "Jumlah Revenue", 
+            "x_value" => "Bulan", 
+            "y_value" => "Pemasukan", 
+            "data" => json_encode($totalRevenue)
+        ]; 
+
+
+
+        return view('admin.dashboard', [
+            "total_registrasi" => count($pelanggan), 
+            "total_pelanggan" => $totalPelanggan, 
+            "total_sopir" => $totalSopir, 
+            "revenue" => $revenue, 
+            "total_registrasi_pelanggan" => $dataRegistrasi, 
+            "total_revenue" => $dataRevenue
+        ]);
     }
 
     public function listPelanggan() {

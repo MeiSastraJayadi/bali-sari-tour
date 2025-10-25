@@ -21,6 +21,7 @@
         <h1 class="text-2xl font-bold mt-3 max-sm:ml-2">{{ $type }}</h1>
         <h2 class="text-lg max-sm:ml-2">{{ $address }}</h1>
         <h3 class="text-lg max-sm:ml-2">{{ $age }}</h3>
+        {{-- @include('components.map') --}}
         <div class="flex items-center justify-start my-4">
             @if ($available)
                 <div class="bg-green-400 rounded-full w-[10px] h-[10px] mr-3 max-sm:ml-2"></div>

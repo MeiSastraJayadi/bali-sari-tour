@@ -122,7 +122,7 @@ class ClientController extends Controller
     public function register() {
         return view('client-register', [
             "img" => "/images/silas-baisch-rf5R1qXwlDU-unsplash.png",
-            "title" => 'Register ke Bali Sari Tour', 
+            "title" => 'Register ke B-SMART', 
             "googleTitle" => 'Daftar dengan Google', 
             "description" => 'Register untuk mengakses layanan pemesanan driver pribadi, tour eksklusif, dan perjalanan yang nyaman di Bali.'
         ]); 
@@ -156,7 +156,7 @@ class ClientController extends Controller
     public function login() {
         return view('client-login', [
                 "img" => "/images/polina-kuzovkova-LpKmGD4kS1g-unsplash.png",
-                "title" => 'Login ke Bali Sari Tour', 
+                "title" => 'Bali Sari Management and Reservation Transport', 
                 "googleTitle" => 'Login dengan Google', 
                 "description" => 'Masuk ke akun Anda untuk mengakses layanan pemesanan driver pribadi, tour eksklusif, dan perjalanan yang nyaman di Bali.'
         ]); 

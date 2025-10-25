@@ -40,12 +40,13 @@
                         </div>
                     </div>
                     <div class="flex max-sm:w-full flex-col items-center justify-center py-6 px-8 max-sm:px-4">
-                        <h1 class="text-white text-xl font-bold ">{{ $title }}</h1>
+                        <h1 class="text-white text-xl font-bold ">B-SMART</h1>
+                        <p class="text-center text-white text sm">{{ $title }}</p>
                         <a href="{{ route('oauth.google') }}" class="border border-white shadow-lg text-white rounded-xl my-5 flex items-center
                             justify-center py-2 px-8 w-full hover:cursor-pointer">
                             <i class="fab fa-google text-white mr-3"></i> {{ $googleTitle }}
                         </a>
-                        <div class="flex w-full py-4 items-center justify-center">
+                        <div class="flex w-full py-2 items-center justify-center">
                             <div class="bg-white h-[1px] rounded-l-full w-full"></div>
                             <h1 class="text-white font-bold text-md px-3"> Atau </h1>
                             <div class="bg-white h-[1px] rounded-l-full w-full"></div>
