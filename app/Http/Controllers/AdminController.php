@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -100,7 +101,6 @@ class AdminController extends Controller
             "y_value" => "Pemasukan", 
             "data" => json_encode($totalRevenue)
         ]; 
-
 
 
         return view('admin.dashboard', [
@@ -439,6 +439,43 @@ class AdminController extends Controller
 
         $pdf = Pdf::loadView('admin.pdf.invoice', $data);
         return $pdf->download('invoice-transport-'.$reservasi->kode.'.pdf');
+    }
+
+    public function bookingConfirm(Request $request, KodeReservasi $kodeReservasi) {
+        
+        if ($kodeReservasi->invoice) {
+            return view('admin.konfirmasi');
+        }
+
+        $hash = $request->query('confirm');
+
+        if (!Hash::check($kodeReservasi->kode, $hash)) {
+            return; 
+        }
+
+        $biaya = $kodeReservasi -> reservasi -> biaya; 
+        
+        $data = [
+            "kode_reservasi" => $kodeReservasi->kode, 
+            "lunas" => false, 
+            "tanggal_bayar" => Carbon::now(), 
+            "biaya" => $biaya, 
+            "metode" => ""
+        ]; 
+
+        $email = $kodeReservasi->reservasi->email; 
+        
+
+        $invoice = Invoice::create($data);
+
+        Mail::send('emails.pelanggan', [
+            'kode_reservasi' => $kodeReservasi->kode,
+        ], function($message) use ($email) {
+            $message->to($email)
+                    ->subject('Konfirmasi Reservasi Anda - Bali Sari Tour');
+        });
+
+        return view('admin.konfirmasi');
     }
 
 

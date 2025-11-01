@@ -12,6 +12,8 @@ Route::get('/', [ClientController::class, 'index']) -> name('home');
 Route::get('/reservation', [ClientController::class, 'reservation']) -> name('reservation'); 
 Route::post('/edit-profile', [ClientController::class, 'editProfile']) -> name('edit-profile');
 
+Route::get('/test-mail', [ClientController::class, 'sendTestMail'])->name('test-mail');
+
 Route::group(['prefix' => '/login'], function() {
     Route::get('/', [ClientController::class, 'login']) -> name('client-login'); 
     Route::post('/', [ClientController::class, 'loginLogic']) -> name('client-login-logic'); 
@@ -37,9 +39,11 @@ Route::get('oauth/google', [ClientController::class, 'redirectToProvider'])->nam
 Route::get('oauth/google/callback', [ClientController::class, 'handleProviderCallback'])->name('oauth.google.callback');
 
 
+
+
 Route::group(['prefix' => '/admin', "as" => "admin."], function() {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard')->middleware(CheckAdminMiddleware::class);
-    
+    Route::get('/bookings/confirm/{kodeReservasi:kode}', [AdminController::class, 'bookingConfirm'])->name('booking-confirm-email');
     Route::group(["prefix" => '/auth', "as" => "auth."], function() {
         Route::get("/login", [AdminController::class, 'showLogin'])->name('view');
         Route::post("/login", [AdminController::class, 'login'])->name('login');

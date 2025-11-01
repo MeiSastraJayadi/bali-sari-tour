@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BookingConfirmationMail;
+use App\Mail\TestMail;
 use App\Models\Invoice;
 use App\Models\KategoriMobil;
 use App\Models\KodeReservasi;
 use App\Models\KonfirmasiJalan;
+use App\Models\Lokasi;
 use App\Models\Mobil;
 use App\Models\Pelanggan;
 use App\Models\Reservasi;
@@ -17,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class ClientController extends Controller
@@ -70,6 +74,7 @@ class ClientController extends Controller
             "mobil" => $mobil
         ]); 
     }
+
 
     public function reservation(Request $request) {
         
@@ -306,6 +311,11 @@ class ClientController extends Controller
         $pax = $request -> pax; 
         $note = $request -> note != null ? $request -> note : ''; 
         $date = $request -> time; 
+        $jarak = (float)$request -> jarak; 
+        $latStart = $request -> latStart; 
+        $lngStart = $request -> lngStart; 
+        $latEnd = $request -> latEnd; 
+        $lngEnd = $request -> lngEnd; 
 
         $reservasi = Reservasi::create([
             "divalidasi" => false,
@@ -322,11 +332,41 @@ class ClientController extends Controller
             "tanggal" => $date
         ]); 
 
+        $lokasi = Lokasi::create([
+            "jarak" => $jarak, 
+            "reservasi_id" => $reservasi -> id, 
+            "lat_start" => $latStart, 
+            "lng_start" => $lngStart, 
+            "lat_end" => $latEnd, 
+            "lng_end" => $lngEnd
+        ]);
+
+        $biaya = $jarak * 60000; 
+
+        Reservasi::where('id', $reservasi->id)
+            ->update([
+                "biaya" => $biaya
+            ]); 
+
         $reservationCode = $this -> generateRandomString(); 
         KodeReservasi::create([
             "kode" => $reservationCode, 
             "reservasi_id" => $reservasi->id
         ]); 
+
+        $hash = Hash::make($reservationCode);
+
+        $data = [
+            'code' => $reservationCode,
+            'guest_name' => $name,
+            'pickup_location' => $address,
+            'destination' => $destination,
+            'price' => 'Rp. '.number_format($biaya, 0, ',', '.'),
+            'note' => $note,
+            'confirmation_url' => url('/admin/bookings/confirm/'.$reservationCode.'?confirm='.$hash),
+        ];
+        
+        Mail::to('admin@example.com')->send(new BookingConfirmationMail($data));
 
         return response([
             "status" => true, 

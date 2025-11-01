@@ -51,38 +51,43 @@
 <div id="reservationForm" class="fixed hidden top-0 bottom-0 flex items-center justify-center 
     left-0 right-0 z-[60] bg-[rgba(0,0,0,.3)]">
     <div class="px-8 max-sm:px-3 py-8 pt-12 bg-white shadow-xl border border-[#BBB] flex 
-        flex-col w-[50%] max-sm:w-[95%] rounded rounded-xl relative"
+        w-[70%] max-sm:w-[95%] rounded rounded-xl relative"
     >
         <i id="closeBtn" class="fas fa-close text-[#555] hover:cursor-pointer top-3 right-3 absolute"></i>
-        <input name="nama" type="text" class="mt-5 pl-2 py-2 mb-3 text-md rounded rounded-xl 
-            border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Nama Lengkap" 
-            value="{{ auth()->user() ? auth()->user()->pelanggan->nama_lengkap : '' }}"
-            required>
-        <input name="alamat" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
-            border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Alamat Penjemputan" required>
-        <input name="destinasi" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
-            border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Destinasi" required>
-        <div class="flex justify-center items-center mb-3 max-sm:flex-col">
-            <input name="email" type="text" class="pl-2 w-[39%] max-sm:w-full mr-[1%] py-2 mb-2 text-md rounded rounded-xl 
-                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Email" value="{{ auth()->user() ? auth()->user()->email : '' }}" required>
-            <input name="telepon" type="text" class="pl-2 w-[39%] max-sm:w-full mr-[1%] py-2 mb-2 text-md rounded rounded-xl 
-                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Telepon" required>
-            <input name="guest" type="text" class="pl-2 py-2 w-[20%] max-sm:w-full mb-2 text-md rounded rounded-xl 
-                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Jumlah Orang" required>
-        </div>
+        <div class="flex flex-col w-[60%]">
+            <input name="nama" type="text" class="mt-5 pl-2 py-2 mb-3 text-md rounded rounded-xl 
+                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Nama Lengkap" 
+                value="{{ auth()->user() ? auth()->user()->pelanggan->nama_lengkap : '' }}"
+                required>
+            <input name="alamat" id="alamatInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
+                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Alamat Penjemputan" required readonly>
+            <input name="destinasi" id="destinasiInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
+                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Destinasi" required readonly>
+            <div class="flex justify-center items-center mb-3 max-sm:flex-col">
+                <input name="email" type="text" class="pl-2 w-[39%] max-sm:w-full mr-[1%] py-2 mb-2 text-md rounded rounded-xl 
+                    border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Email" value="{{ auth()->user() ? auth()->user()->email : '' }}" required>
+                <input name="telepon" type="text" class="pl-2 w-[39%] max-sm:w-full mr-[1%] py-2 mb-2 text-md rounded rounded-xl 
+                    border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Telepon" required>
+                <input name="guest" type="text" class="pl-2 py-2 w-[20%] max-sm:w-full mb-2 text-md rounded rounded-xl 
+                    border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Jumlah Orang" required>
+            </div>
 
-        <h1 class="text-md font-bold mt-2 mb-1 text-[#555]">Waktu Berangkat</h1>
-        <input value="{{ $defaultDate }}" id="dateTime" name="time" type="date" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
-            border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Destinasi" required>
-        <textarea 
-            name="note" 
-            id="noteText" 
-            placeholder="Masukkan detail waktu dan detail lainnya"
-            class="border-2 border-[#BBB] pl-2 pt-2 text-[#333] text-md focus:outline-none rounded-xl"
-            rows="5"></textarea>
-        <div class="w-full flex items-center justify-center">
-            <button id="nextReservation" class="hover:cursor-pointer hover:opacity-90 text-white text-xl py-4 bg-[#333] rounded 
-            rounded-xl shadow-xl font-bold mt-3 w-[100%]">Lihat Detail Reservasi</button>
+            <h1 class="text-md font-bold mt-2 mb-1 text-[#555]">Waktu Berangkat</h1>
+            <input value="{{ $defaultDate }}" id="dateTime" name="time" type="date" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
+                border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Destinasi" required>
+            <textarea 
+                name="note" 
+                id="noteText" 
+                placeholder="Masukkan detail waktu dan detail lainnya"
+                class="border-2 border-[#BBB] pl-2 pt-2 text-[#333] text-md focus:outline-none rounded-xl"
+                rows="5"></textarea>
+            <div class="w-full flex items-center justify-center">
+                <button id="nextReservation" class="hover:cursor-pointer hover:opacity-90 text-white text-xl py-4 bg-[#333] rounded 
+                rounded-xl shadow-xl font-bold mt-3 w-[100%]">Lihat Detail Reservasi</button>
+            </div>
+        </div>
+        <div class="w-[40%] pl-5">
+            @include('components.map')
         </div>
     </div>
 </div>
@@ -104,11 +109,11 @@
         <div class="flex justify-start items-start my-1 max-sm:flex-wrap">
             <div class="flex flex-col items-start justify-center my-1 w-[34%] max-sm:w-[49%] mr-[1%]">
                 <h3 class="text-md text-[#777] font-bold">Tempat Penjemputan</h3>
-                <h2 class="text-xl font-bold text-[#333]" id="addressLabel">Badung</h2>
+                <h2 class="text-xl font-bold text-[#333] w-full truncate" id="addressLabel">Badung</h2>
             </div>
             <div class="flex flex-col items-start justify-center my-1 w-[34%] max-sm:w-[50%] mr-[1%] max-sm:mr-0">
                 <h3 class="text-md text-[#777] font-bold">Destinasi</h3>
-                <h2 class="text-xl font-bold text-[#333]" id="destinationLabel">Sanur</h2>
+                <h2 class="text-xl font-bold text-[#333] w-full truncate" id="destinationLabel">Sanur</h2>
             </div>
             <div class="flex flex-col items-start justify-center my-1 w-[30%] max-sm:w-full">
                 <h3 class="text-md text-[#777] font-bold">Waktu Berangkat</h3>
@@ -247,6 +252,11 @@
     let pax = ''; 
     let note = ''; 
     let time = ''; 
+    let jarak = ''; 
+    let latStart = ''; 
+    let lngStart = ''; 
+    let latEnd = ''; 
+    let lngEnd = '';
 
     const closeDetail = document.getElementById('closeBtnDetail'); 
     closeDetail.addEventListener('click', function() {
@@ -302,6 +312,11 @@
         pax = document.querySelector('input[name="guest"]').value;
         note = document.getElementById('noteText').value ?? '';
         time = getFormattedTime(document.getElementById('dateTime').value); 
+        jarak = document.querySelector('input#jarak').value; 
+        latStart = document.querySelector('input#start_lat').value; 
+        lngStart = document.querySelector('input#start_lng').value; 
+        latEnd = document.querySelector('input#end_lat').value; 
+        lngEnd = document.querySelector('input#end_lng').value; 
 
         console.log(document.getElementById('dateTime').value); 
 
@@ -363,7 +378,12 @@
                 pax, 
                 note,
                 time, 
-                user
+                user, 
+                jarak, 
+                latStart,
+                lngStart,
+                latEnd, 
+                lngEnd, 
             }
             const response = await fetch('/book/create-reservation', {
                 method: 'POST',
