@@ -48,17 +48,25 @@
 </div>
 
 
-<div id="reservationForm" class="fixed hidden top-0 bottom-0 flex items-center justify-center 
+<div id="reservationForm" class="fixed hidden top-0 bottom-0 flex items-center max-sm:items-start max-sm:pt-12 justify-center 
     left-0 right-0 z-[60] bg-[rgba(0,0,0,.3)]">
     <div class="px-8 max-sm:px-3 py-8 pt-12 bg-white shadow-xl border border-[#BBB] flex 
-        w-[70%] max-sm:w-[95%] rounded rounded-xl relative"
+        w-[70%] max-sm:w-[95%] rounded rounded-xl relative max-sm:flex-col"
     >
         <i id="closeBtn" class="fas fa-close text-[#555] hover:cursor-pointer top-3 right-3 absolute"></i>
-        <div class="flex flex-col w-[60%]">
+        <div class="flex flex-col w-[60%] max-sm:w-full">
             <input name="nama" type="text" class="mt-5 pl-2 py-2 mb-3 text-md rounded rounded-xl 
                 border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Nama Lengkap" 
                 value="{{ auth()->user() ? auth()->user()->pelanggan->nama_lengkap : '' }}"
                 required>
+            <details class="border w-full mb-3 hidden max-sm:block border-gray-300 rounded-lg p-4">
+                <summary class="cursor-pointer font-semibold text-gray-800">
+                    Tekan untuk buka peta
+                </summary>
+                <div class="mt-2 text-gray-600">
+                    @include('components.map')
+                </div>
+            </details>
             <input name="alamat" id="alamatInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
                 border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Alamat Penjemputan" required readonly>
             <input name="destinasi" id="destinasiInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
@@ -86,7 +94,7 @@
                 rounded-xl shadow-xl font-bold mt-3 w-[100%]">Lihat Detail Reservasi</button>
             </div>
         </div>
-        <div class="w-[40%] pl-5">
+        <div class="w-[40%] pl-5 max-sm:hidden">
             @include('components.map')
         </div>
     </div>
