@@ -59,14 +59,14 @@
                 border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Nama Lengkap" 
                 value="{{ auth()->user() ? auth()->user()->pelanggan->nama_lengkap : '' }}"
                 required>
-            <details class="border w-full mb-3 hidden max-sm:block border-gray-300 rounded-lg p-4">
+            {{-- <details class="border w-full mb-3 hidden max-sm:block border-gray-300 rounded-lg p-4">
                 <summary class="cursor-pointer font-semibold text-gray-800">
                     Tekan untuk buka peta
                 </summary>
                 <div class="mt-2 text-gray-600">
                     @include('components.map')
                 </div>
-            </details>
+            </details> --}}
             <input name="alamat" id="alamatInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
                 border-2 border-[#BBB] focus:outline-none text-[#333]" placeholder="Alamat Penjemputan" required readonly>
             <input name="destinasi" id="destinasiInput" type="text" class="pl-2 py-2 mb-3 text-md rounded rounded-xl 
