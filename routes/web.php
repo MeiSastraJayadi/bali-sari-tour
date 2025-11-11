@@ -28,6 +28,7 @@ Route::group(['prefix' => '/book'], function() {
     Route::get('/{car:id}', [ClientController::class, 'bookingView']) -> name('booking-view'); 
     Route::post('/create-reservation', [ClientController::class, 'createReservation']) -> name('create-reservation');
     Route::post('/payment-token', [PaymentController::class, 'getSnapToken'])->name('snap-token'); 
+    Route::post('/cash-payment', [PaymentController::class, 'cashPayment'])->name('cash-payment'); 
     Route::post('/payment-success', [PaymentController::class, 'paymentSuccess'])->name('payment-success');
     Route::get('/konfirmasi/{reservasi:kode}', [ClientController::class, 'konfirmasiJalan'])->name('konfirmasi-client');
 }); 

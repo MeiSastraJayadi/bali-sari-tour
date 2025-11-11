@@ -17,7 +17,7 @@
         transition-all duration-300 ease-in-out" 
         data-accordion-content
     > 
-        @if ($invoice->lunas)
+        @if ($invoice->kodeReservasi->reservasi->divalidasi)
         <div class="w-full flex w-full flex-col my-3 items-center justify-start border rounded-xl px-2 py-2 border-[#CCC]">
             <button class="w-full hover:cursor-pointer hover:opacity-90 text-sm mt-3 py-2 text-white bg-[#333] rounded-xl">
                 Lihat Invoice
@@ -35,7 +35,7 @@
             >
                 Bayar
             </button>
-            <button class="w-full hover:cursor-pointer hover:opacity-90 text-sm mt-3 py-2 text-white bg-[#333] rounded-xl">
+            <button data-id="{{ $invoice->kode_reservasi }}"  class="w-full cash-payment-btn hover:cursor-pointer hover:opacity-90 text-sm mt-3 py-2 text-white bg-[#333] rounded-xl">
                 Pembayaran Cash
             </button>
         </div>

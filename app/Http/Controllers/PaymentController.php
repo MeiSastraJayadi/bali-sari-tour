@@ -80,4 +80,26 @@ class PaymentController extends Controller
         ], 200);
     }
 
+
+    public function cashPayment(Request $request) {
+        $validated = $request -> validate([
+            "kode_reservasi" => "required"
+        ]); 
+     
+        $kodeReservasi = KodeReservasi::where('kode', $request->kode_reservasi) -> first(); 
+        // $invoice = $kodeReservasi->invoice;
+        $reservasi = $kodeReservasi->reservasi;
+        
+
+        Reservasi::where('id', $reservasi->id)->update([
+            'divalidasi' => true
+        ]); 
+
+        return response([
+            'status' => true, 
+            'message' => "Sukses konfirmasi pembayaran cash"
+        ], 200);
+
+    }
+
 }

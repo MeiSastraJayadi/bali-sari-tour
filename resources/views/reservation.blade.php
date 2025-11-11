@@ -190,6 +190,28 @@
     });
 
 
+    $(document).on("click", ".cash-payment-btn", function () {
+        let kodeReservasi= $(this).data("id");
+        $.ajax({
+            url: "{{ route('cash-payment') }}",
+            method: "POST",
+            data: JSON.stringify({
+                kode_reservasi: kodeReservasi
+            }),
+            contentType: "application/json",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (res) {
+                window.location.href = window.location.origin + window.location.pathname;
+            },
+            error: function (err) {
+                console.error("AJAX Error:", err);
+            }
+        });
+    });
+
+
     $(document).on('click', '#editProfile', function() {
         const nameDisplay = document.getElementById('userName');
         const emailDisplay = document.getElementById('userEmail');
