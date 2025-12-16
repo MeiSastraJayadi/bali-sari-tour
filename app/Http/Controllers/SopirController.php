@@ -76,7 +76,7 @@ class SopirController extends Controller
 
     public function persentaseFee(Mobil $mobil) {
         if ($mobil -> kategori -> nama_kategori == 'Avanza') {
-            return 0.21; 
+            return 0.25; 
         } else {
             return 0.15; 
         }
