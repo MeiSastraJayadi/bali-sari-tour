@@ -74,6 +74,14 @@ class SopirController extends Controller
         ]); 
     }
 
+    public function persentaseFee(Mobil $mobil) {
+        if ($mobil -> kategori -> nama_kategori == 'Avanza') {
+            return 0.21; 
+        } else {
+            return 0.12; 
+        }
+    }
+
     public function feeData(Request $request) {
         $sopirId = $request->user()->sopir->id; 
         $mobil = Mobil::where('owner_id', $sopirId)->first(); 
@@ -83,7 +91,7 @@ class SopirController extends Controller
                 return $row->pelanggan ? $row->pelanggan->nama_lengkap : '-';
             })
             ->addColumn('biaya', function ($row) {
-                return $this->formatRupiah($row->biaya);
+                return $this->formatRupiah($row->biaya * $this -> persentaseFee($row->mobil));
             })
             ->make(true);
     }

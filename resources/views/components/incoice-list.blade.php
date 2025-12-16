@@ -35,9 +35,6 @@
             >
                 Bayar
             </button>
-            <button data-id="{{ $invoice->kode_reservasi }}"  class="w-full cash-payment-btn hover:cursor-pointer hover:opacity-90 text-sm mt-3 py-2 text-white bg-[#333] rounded-xl">
-                Pembayaran Cash
-            </button>
         </div>
         @endif
     </div>
