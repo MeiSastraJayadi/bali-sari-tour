@@ -341,7 +341,8 @@ class ClientController extends Controller
             "lng_end" => $lngEnd
         ]);
 
-        $biaya = $jarak * 60000; 
+        $biaya = $mobil -> kategori -> nama_kategori == "Hiace" ? 120000 : 60000; 
+        $biaya *= $jarak;  
 
         Reservasi::where('id', $reservasi->id)
             ->update([
